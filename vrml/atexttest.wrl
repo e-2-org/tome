@@ -1,0 +1,29 @@
+#VRML V2.0 utf8
+
+Transform {
+children[
+Shape {
+geometry Text {
+fontStyle FontStyle {
+style "Bold"
+size 1.75
+}
+string ["      Tome -"]
+maxExtent 0
+length 0
+}
+}
+]
+}
+Transform {
+translation 0 -1 0
+children[
+Shape {
+geometry Text {
+string ["loading, please wait"]
+maxExtent 0
+length 0
+}
+}
+]
+}

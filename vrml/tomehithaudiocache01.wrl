@@ -1,0 +1,20 @@
+#VRML V2.0 utf8
+Group {
+	children [
+		Sound {
+			source DEF sound1 AudioClip {
+				loop 					FALSE
+				url	[	"../audio/jet16b.wav" ]
+			}
+			intensity     0        
+			location      0 0 0  
+			maxBack       1    
+			maxFront      1   
+			minBack       3   
+			minFront      3 
+			priority      0 
+			spatialize    FALSE
+		}
+	]
+}
+

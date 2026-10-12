@@ -1,0 +1,116 @@
+#VRML V2.0 utf8
+Group {
+	children [
+	Viewpoint{
+	position 6 0 8
+	}
+	DEF roomProx ProximitySensor {
+			center	-5 2.5 -3.1
+			size		6.5 8 9.4
+			}
+		Sound {
+			source DEF sound1 AudioClip {
+				loop 					 TRUE
+				pitch          1.2
+				startTime      1
+				url	[	"../audio/rm3wind2_11khz.wav" ]
+			}
+			direction 		0 0 -1
+			intensity     0.4        
+			location      6 0 8  
+			maxBack       5    
+			maxFront      11   
+			minBack       2   
+			minFront      4 
+			priority      0 
+			spatialize    FALSE
+		}
+		
+		Sound {
+			source DEF sound2 AudioClip {
+				loop 					 TRUE
+				startTime      1
+				url	[	"../audio/rm3wind2_11khz.wav" ]
+			}
+			direction 		0 0 -1
+			intensity     0.4        
+			location      6 0 8  
+			maxBack       5    
+			maxFront      11   
+			minBack       2   
+			minFront      4 
+			priority      0 
+			spatialize    FALSE
+		}
+		DEF sound3 Sound {
+			source DEF sound3Sound AudioClip {
+				loop           TRUE
+				stopTime			 0.5
+				pitch					 0.93
+				url	[	"../audio/bark8b.wav" ]
+			}
+			direction 		0 0 -1
+			intensity     0.2        
+			location      6 0 8  
+			maxBack       5    
+			maxFront      11   
+			minBack       1   
+			minFront      2 
+			priority      0 
+			spatialize    FALSE
+		}
+		DEF sound3Timer TimeSensor {
+			cycleInterval	25
+			loop	TRUE
+			startTime 1
+		}
+		DEF sound3IntensityTimer TimeSensor {
+			cycleInterval 1.75
+		}
+		DEF sound3Intensity ScalarInterpolator {
+			key [ 0, 0.3, 1 ]
+			keyValue [ 0.2, 0.4, 0.0 ]
+		}
+	]
+}
+DEF bowAudioScript Script {
+	eventIn SFBool soundsEnable
+	eventIn SFBool sound3Status
+	eventIn SFTime sound3Start
+	field SFBool sound3On FALSE
+	eventOut SFTime sound3Play
+	eventOut SFTime sound3Stop
+	eventOut SFBool sloop
+	eventOut SFTime stop
+	url "javascript:
+	function sound3Status (status){
+	sound3On = status;
+	}
+	function sound3Start(now3, time){
+	if (sound3On == FALSE){
+	sound3Play = (time + 20);
+	sound3Stop = (time + 21.75);
+	}
+	}
+	function soundsEnable (inRoom, time){
+	if (inRoom == FALSE){
+	stop = time;
+	}
+	}
+	"
+}
+ROUTE sound3Timer.cycleTime TO bowAudioScript.sound3Start
+ROUTE bowAudioScript.sound3Play TO sound3Sound.startTime
+ROUTE	bowAudioScript.sound3Play TO sound3IntensityTimer.startTime
+ROUTE sound3IntensityTimer.fraction_changed TO sound3Intensity.set_fraction
+ROUTE sound3Intensity.value_changed TO sound3.intensity
+ROUTE roomProx.isActive TO bowAudioScript.soundsEnable
+ROUTE bowAudioScript.stop TO sound3IntensityTimer.stopTime
+ROUTE bowAudioScript.stop TO sound1.stopTime
+ROUTE bowAudioScript.stop TO sound2.stopTime
+ROUTE bowAudioScript.stop TO sound3Timer.stopTime
+ROUTE bowAudioScript.stop TO sound3Sound.stopTime
+ROUTE bowAudioScript.sloop TO sound1.loop
+ROUTE bowAudioScript.sloop TO sound2.loop
+
+

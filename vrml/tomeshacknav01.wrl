@@ -1,0 +1,186 @@
+#VRML V2.0 utf8
+
+
+Group {
+	children     [
+		Transform {
+			children        [
+				DEF prox ProximitySensor {
+					center    0 0 0
+					size      100 100 100
+				}
+				DEF forwardAnchor Anchor {
+					url ["#fireWallLeft"]
+					children
+					[
+						DEF forwardTouch TouchSensor {}
+						DEF forward Transform {
+							children [
+								Transform {
+									translation .275 -.196875 -0.5
+									scale .0195 .0195 .0195
+									children [
+										Shape {
+											appearance Appearance {
+												material Material {
+													diffuseColor 0.3 0.7 0.4
+													}
+											}
+											geometry Sphere {}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+				DEF backAnchor Anchor {
+					url "#fireWallRight"
+					children
+					[
+						DEF backTouch TouchSensor {}
+						DEF back Transform {
+							children [
+								Transform {
+									translation -.275 -.196875 -0.5
+									scale .0195 .0195 .0195
+									children [
+										Shape {
+											appearance Appearance {
+												material DEF backMat Material {
+													diffuseColor 0.6 0.3 0.8
+													transparency 1
+												}
+											}
+											geometry Sphere {}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
+ROUTE prox.position_changed TO prox.set_center
+ROUTE prox.position_changed TO forward.set_translation
+ROUTE prox.orientation_changed TO forward.set_rotation
+ROUTE prox.position_changed TO back.set_translation
+ROUTE prox.orientation_changed TO back.set_rotation
+
+DEF textViewAnim Script {
+	eventIn SFTime forwardClicked
+	eventIn SFTime backClicked
+	field SFInt32	textCurrent 1
+	field	MFString	firstView "#shackInitialView"
+	field	MFString	secondView "#shackLongWallUpView"
+	field	MFString	thirdView "#shackLeftFireWallView"
+	field	MFString	fourthView "#shackFarWallDownView"
+	field	MFString	fifthView "#shackLongWallDownView"
+	field	MFString	sixthView "#shackFarWallUpView"
+	field	MFString	seventhView "#shackFloatTextView"
+	field	MFString	doorView "#shackDoorView"
+	eventOut MFString fViewNow
+	eventOut MFString bViewNow
+	eventOut	SFFloat backShade
+	
+	url "javascript:
+	function forwardClicked (ts){
+	if (ts + 1){
+	if (textCurrent == 1){
+	fViewNow = secondView;
+	bViewNow = firstView;
+	}
+	else if (textCurrent == 2){
+	fViewNow = thirdView;
+	bViewNow = firstView;
+	}
+	else if (textCurrent == 3){
+	fViewNow = fourthView;
+	bViewNow = secondView;
+	}
+	else if (textCurrent == 4){
+	fViewNow = fifthView;
+	bViewNow = thirdView;
+	}
+	else if (textCurrent == 5){
+	fViewNow = sixthView;
+	bViewNow = fourthView;
+	}
+	else if (textCurrent == 6){
+	fViewNow = seventhView;
+	bViewNow = fifthView;
+	}
+	else if (textCurrent == 7){
+	fViewNow = doorView;
+	bViewNow = sixthView;
+	}
+	else if (textCurrent == 8){
+	fViewNow = firstView;
+	bViewNow = seventhView;
+	textCurrent = 0;
+	}
+	textCurrent = textCurrent + 1;	
+	if (textCurrent == 1){
+	backShade = 1;
+	}
+	else {
+	backShade = 0;
+	}
+	}
+	}
+	
+	function backClicked (ts){
+	if (ts + 1){
+	if (textCurrent == 8){
+	fViewNow = firstView;
+	bViewNow = seventhView;
+	}
+	else if (textCurrent == 7){
+	fViewNow = doorView;
+	bViewNow = sixthView;
+	}
+	else if (textCurrent == 6){
+	fViewNow = seventhView;
+	bViewNow = fifthView;
+	}
+	else if (textCurrent == 5){
+	fViewNow = sixthView;
+	bViewNow = fourthView;
+	}
+	else if (textCurrent == 4){
+	fViewNow = fifthView;
+	bViewNow = thirdView;
+	}
+	else if (textCurrent == 3){
+	fViewNow = fourthView;
+	bViewNow = secondView;
+	}
+	else if (textCurrent == 2){
+	fViewNow = thirdView;
+	bViewNow = firstView;
+	}
+	else if (textCurrent == 1){
+	fViewNow = secondView;
+	bViewNow = firstView;
+	textCurrent = 2;
+	}
+	textCurrent = textCurrent - 1;
+	if (textCurrent == 1){
+	backShade = 1;
+	}
+	else {
+	backShade = 0;
+	}
+	}		
+	}
+	"
+}
+
+ROUTE forwardTouch.touchTime TO textViewAnim.forwardClicked
+ROUTE backTouch.touchTime TO textViewAnim.backClicked
+ROUTE textViewAnim.bViewNow TO	backAnchor.set_url
+ROUTE textViewAnim.fViewNow TO	forwardAnchor.set_url
+ROUTE textViewAnim.backShade TO backMat.transparency

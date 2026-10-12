@@ -1,0 +1,227 @@
+#VRML V2.0 utf8
+
+
+Group {
+	children     [
+		Transform {
+			children        [
+				DEF prox ProximitySensor {
+					center    0 0 0
+					size      100 100 100
+				}
+				DEF forwardAnchor Anchor {
+					url ["#fireWallLeft"]
+					children
+					[
+						DEF forwardTouch TouchSensor {}
+						DEF forward Transform {
+							children [
+								Transform {
+									translation .4 -.2843 -0.5
+									scale .0255 .0255 .0255
+									children [
+										Shape {
+											appearance Appearance {
+												material Material {
+													diffuseColor 0.3 0.7 0.4
+													}
+											}
+											geometry Sphere {}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+				DEF backAnchor Anchor {
+					url "#fireWallRight"
+					children
+					[
+						DEF backTouch TouchSensor {}
+						DEF back Transform {
+							children [
+								Transform {
+									translation -.4 -.2843 -0.5
+									scale .0255 .0255 .0255
+									children [
+										Shape {
+											appearance Appearance {
+												material DEF backMat Material {
+													diffuseColor 0.6 0.3 0.8
+													transparency 1
+												}
+											}
+											geometry Sphere {}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
+ROUTE prox.position_changed TO prox.set_center
+ROUTE prox.position_changed TO forward.set_translation
+ROUTE prox.orientation_changed TO forward.set_rotation
+ROUTE prox.position_changed TO back.set_translation
+ROUTE prox.orientation_changed TO back.set_rotation
+DEF hithInitialView Viewpoint {
+					fieldOfView 1.16952
+					orientation -0.0465799 -0.994229 -0.0966418 1.96916
+					position -6.66388 1.57081 -6.06245
+					description "hithInitialView"
+				}
+		DEF	hithLeftFireWallview	Viewpoint {
+					fieldOfView 1.16952
+					orientation -0.0357855 0.996716 0.0726413 2.0008
+					position -5.40842 1.57081 -0.852102
+					description "hithLeftFireWallview"
+				}
+		DEF	hithRightFireWallView	Viewpoint {
+					fieldOfView 1.16952
+					orientation 0.235704 0.956225 -0.173428 1.21293
+					position -5.03598 1.57081 -5.0429
+					description "hithRightFireWallView"
+				}
+		DEF	hithFarWallView	Viewpoint {
+					fieldOfView 1.16952
+					orientation 0.0175719 0.99813 -0.0585388 2.94843
+					position -3.58677 1.57081 -3.04147
+					description "hithFarWallView"
+				}
+		DEF	hithFireStackView	Viewpoint {
+					fieldOfView 1.16952
+					orientation 0.274661 0.92082 -0.276862 1.59979
+					position -4.7095 1.57081 -2.65493
+					description "hithFireStackView"
+				}
+		DEF	hithChairWindowView	Viewpoint {
+					fieldOfView 1.16952
+					orientation 0 -1 0 0.285444
+					position -6.36984 1.57081 -3.16787
+					description "hithChairWindowView"
+				}
+		DEF	hithCeilingView	Viewpoint {
+					fieldOfView 1.16952
+					orientation 0.999962 0.00726057 -0.00477677 1.16386
+					position -5.08828 1.56861 -3.28661
+					description "hithCeilingView"
+				}
+DEF textViewAnim Script {
+	eventIn SFTime forwardClicked
+	eventIn SFTime backClicked
+	field SFInt32	textCurrent 1
+	field	MFString	firstView "#hithInitialView"
+	field	MFString	secondView "#hithLeftFireWallview"
+	field	MFString	thirdView "#hithRightFireWallView"
+	field	MFString	fourthView "#hithFarWallView"
+	field	MFString	fifthView "#hithFireStackView"
+	field	MFString	sixthView "#hithChairWindowView"
+	field	MFString	seventhView "#hithCeilingView"
+	field	MFString	doorView "#hithDoorView"
+	eventOut MFString fViewNow
+	eventOut MFString bViewNow
+	eventOut	SFFloat backShade
+	
+	url "javascript:
+	function forwardClicked (ts){
+	if (ts + 1){
+	if (textCurrent == 1){
+	fViewNow = secondView;
+	bViewNow = firstView;
+	}
+	else if (textCurrent == 2){
+	fViewNow = thirdView;
+	bViewNow = firstView;
+	}
+	else if (textCurrent == 3){
+	fViewNow = fourthView;
+	bViewNow = secondView;
+	}
+	else if (textCurrent == 4){
+	fViewNow = fifthView;
+	bViewNow = thirdView;
+	}
+	else if (textCurrent == 5){
+	fViewNow = sixthView;
+	bViewNow = fourthView;
+	}
+	else if (textCurrent == 6){
+	fViewNow = seventhView;
+	bViewNow = fifthView;
+	}
+	else if (textCurrent == 7){
+	fViewNow = doorView;
+	bViewNow = sixthView;
+	}
+	else if (textCurrent == 8){
+	fViewNow = firstView;
+	bViewNow = seventhView;
+	textCurrent = 0;
+	}
+	textCurrent = textCurrent + 1;	
+	if (textCurrent == 1){
+	backShade = 1;
+	}
+	else {
+	backShade = 0;
+	}
+	}
+	}
+	
+	function backClicked (ts){
+	if (ts + 1){
+	if (textCurrent == 8){
+	fViewNow = firstView;
+	bViewNow = seventhView;
+	}
+	else if (textCurrent == 7){
+	fViewNow = doorView;
+	bViewNow = sixthView;
+	}
+	else if (textCurrent == 6){
+	fViewNow = seventhView;
+	bViewNow = fifthView;
+	}
+	else if (textCurrent == 5){
+	fViewNow = sixthView;
+	bViewNow = fourthView;
+	}
+	else if (textCurrent == 4){
+	fViewNow = fifthView;
+	bViewNow = thirdView;
+	}
+	else if (textCurrent == 3){
+	fViewNow = fourthView;
+	bViewNow = secondView;
+	}
+	else if (textCurrent == 2){
+	fViewNow = thirdView;
+	bViewNow = firstView;
+	}
+	else if (textCurrent == 1){
+	fViewNow = secondView;
+	bViewNow = firstView;
+	textCurrent = 2;
+	}
+	textCurrent = textCurrent - 1;
+	if (textCurrent == 1){
+	backShade = 1;
+	}
+	else {
+	backShade = 0;
+	}
+	}		
+	}
+	"
+}
+
+ROUTE forwardTouch.touchTime TO textViewAnim.forwardClicked
+ROUTE backTouch.touchTime TO textViewAnim.backClicked
+ROUTE textViewAnim.bViewNow TO	backAnchor.set_url
+ROUTE textViewAnim.fViewNow TO	forwardAnchor.set_url
+ROUTE textViewAnim.backShade TO backMat.transparency

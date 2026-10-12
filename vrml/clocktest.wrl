@@ -1,0 +1,26 @@
+#VRML V2.0 utf8
+Transform{ 
+children [
+Viewpoint {
+position 0 0 0
+}
+Sound {
+			source DEF clockSound AudioClip {
+				loop 					 TRUE
+				startTime      1
+				#startTime      0
+				url	[	"../audio/clock22khz.wav" ]
+			}
+			direction 		0 0 -1
+			intensity     0.5        
+			location      0 1 0  
+			maxBack       3    
+			maxFront      3   
+			minBack       1   
+			minFront      1 
+			priority      0 
+			spatialize    FALSE
+		} 
+		]
+		}
+

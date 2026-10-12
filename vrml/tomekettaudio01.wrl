@@ -1,0 +1,55 @@
+#VRML V2.0 utf8
+Group {
+	children [
+	DEF roomProx ProximitySensor {
+			center	-5 2.5 -3.1
+			size		6.5 8 9.4
+			}
+	DEF sound3 Sound {
+			source DEF sound3Sound AudioClip {
+				loop           TRUE
+				startTime			 1
+				url	[	"../audio/tele8b.wav" ]
+			}
+			direction 		0 0 1
+			intensity     0.3        
+			location      -6 0 -8  
+			maxBack       5    
+			maxFront      11   
+			minBack       1   
+			minFront      9 
+			priority      0 
+			spatialize    FALSE
+		}
+		DEF sound3Timer TimeSensor {
+			cycleInterval	60
+			loop	TRUE
+			startTime 1
+		}
+		]
+}
+DEF bowAudioScript Script {
+	eventIn SFBool soundsEnable
+	eventIn SFTime sound3Start
+	eventOut SFTime sound3Play
+	eventOut SFTime sound3Stop
+	eventOut SFTime stop
+	eventOut SFBool sloop
+	url "javascript:
+	function sound3Start(now3, time){
+	sound3Play = (time + 20);
+	sound3Stop = (time + 34);
+	}
+	function soundsEnable (inRoom, time){
+	if (inRoom == FALSE){
+	stop = time;
+	sloop = FALSE;
+	}
+	}
+	"
+}
+ROUTE sound3Timer.cycleTime TO bowAudioScript.sound3Start
+ROUTE bowAudioScript.sound3Play TO sound3Sound.startTime
+ROUTE bowAudioScript.sound3Stop TO sound3Sound.stopTime
+
+ROUTE bowAudioScript.sloop TO sound3Sound.loop
