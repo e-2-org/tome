@@ -1,56 +1,88 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
- "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>David Lilley - Tome</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<style type="text/css">
-/*<![CDATA[*/
-<!--
-body {
+<!-- X_ITE: WebGL VRML/X3D browser, replaces the Cosmo Player plugin -->
+<script defer src="https://cdn.jsdelivr.net/npm/x_ite@16.4.1/dist/x_ite.min.js"></script>
+<style>
+html, body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
-	width: 100%;
 	background: #000;
-	text-align: center;
+	color: #ccc;
+	font-family: Georgia, serif;
 }
---> /*]]>*/
+body {
+	display: flex;
+	flex-direction: column;
+}
+main {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+/* As large as the window allows, keeping the original 533x392 proportions
+   so the camera-fixed navigation spheres stay in frame */
+.stage {
+	position: relative;
+	width: min(100vw, calc((100dvh - 16px) * 533 / 392));
+	aspect-ratio: 533 / 392;
+}
+x3d-canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+/* Browsers block audio until the user interacts, so the world loads behind a click */
+#enter {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #000;
+	color: #ccc;
+	border: 0;
+	font: inherit;
+	font-size: 1.1rem;
+	letter-spacing: 0.2em;
+	cursor: pointer;
+}
+#enter:hover, #enter:focus-visible {
+	color: #fff;
+}
+footer {
+	padding: 0 0 8px 0;
+}
+footer img {
+	display: block;
+	border: 0;
+}
 </style>
 </head>
 <body>
 
-<table width="100%" height="100%" border="0" cellpadding cellspacing="0">
-	<tr>
-		<td align="center" valign="middle"><embed
-			src="vrml/tomemasterall12k.wrl" width="533" height="392"
-			vrml-dashboard="FALSE">
-		</embed></td>
-	</tr>
-	<tr>
-		<td valign="bottom" align="left"><br clear="all">
-		<br clear="all">
-		<br clear="all">
-		<br clear="all">
-		<a href="../../index.html"><img src="bridav4.gif" height="8"
-			width="50" border="0" vspace="0" hspace="0" alt=""></a></td>
-	</tr>
-</table>
+<main>
+	<div class="stage">
+		<x3d-canvas id="world" splashScreen="false" notifications="false" contextMenu="false"></x3d-canvas>
+		<button id="enter" type="button">ENTER</button>
+	</div>
+</main>
 
-<!-- analytics -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+<footer>
+	<a href="../../index.html"><img src="bridav4.gif" height="8" width="50" alt="back"></a>
+</footer>
+
+<script>
+document.getElementById("enter").addEventListener("click", function () {
+	this.remove();
+	document.getElementById("world").setAttribute("src", "vrml/tomemasterall12k.wrl");
+});
 </script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-15939048-4");
-pageTracker._setDomainName(".e-2.org");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-<!-- end analytics -->
-
-
 
 </body>
 </html>

@@ -104,7 +104,9 @@ DEF textViewAnim Script {
 	bViewNow = fourthView;
 	textCurrent = 0;
 	}
-	textCurrent = textCurrent + 1;	
+	textCurrent = textCurrent + 1;
+	// X_ITE does not activate an Anchor when a TouchSensor shares its geometry, so bind the view explicitly
+	Browser.loadURL(fViewNow, new MFString());	
 	if (textCurrent == 1){
 	backShade = 1;
 	}
@@ -139,6 +141,7 @@ DEF textViewAnim Script {
 	textCurrent = 2;
 	}
 	textCurrent = textCurrent - 1;
+	Browser.loadURL(bViewNow, new MFString());
 	if (textCurrent == 1){
 	backShade = 1;
 	}
