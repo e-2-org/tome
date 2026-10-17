@@ -1,0 +1,305 @@
+#VRML V2.0 utf8
+Transform {
+	translation -5 0 -3.1
+	children [
+		DEF textFarWall Transform { # childs: 1
+			translation 0 -2.5 4.4
+			rotation 0 0 1 0
+			scaleOrientation 0 0 1 0
+			children [
+				Shape {
+					appearance Appearance {
+						texture ImageTexture {
+							url "../image/tometxt/rm7eleph/rm7elph6.gif"
+						}
+						material DEF text01Material Material {
+							diffuseColor 0.5 0.5 0.5
+							transparency 0.5
+						}
+					}
+					geometry IndexedFaceSet { # faces: 5
+						convex FALSE
+						colorPerVertex FALSE
+						ccw FALSE
+						
+						coord DEF Label_030 Coordinate {
+							point [
+								2.25 3 0,
+								2.25 4.33 0,
+								-2.25 4.33 0,
+								-2.25 3 0
+							]
+						}
+						coordIndex [
+							0, 1, 2, 3, -1,
+						]
+						texCoord TextureCoordinate {
+							point [0 0,  0 1 ,  1 1,  1 0 ]
+						}
+						texCoordIndex [
+							0, 1, 2, 3, -1
+						]
+					}
+				}
+			]
+		}
+		DEF textRightAlcove Transform { # childs: 1
+			translation -2.88 0 -3.2
+			rotation 0 1 0 -1.57
+			scaleOrientation 0 0 1 0
+			children [
+				Shape {
+					appearance Appearance {
+						texture ImageTexture {
+							url "../image/tometxt/rm7eleph/rm7elph4.gif"
+						}
+						material DEF text02Material Material {
+							diffuseColor 0.5 0.5 0.5
+						}
+					}
+					geometry IndexedFaceSet { # faces: 5
+						convex FALSE
+						colorPerVertex FALSE
+						ccw FALSE
+						
+						coord Coordinate {
+							point [
+								#									2.5 3 0,
+								#										2.5 3.588 0,
+								#										-2.5 3.588 0,
+								#										-2.5 3 0
+								0.5 3 0,
+								0.5 4 0,
+								-0.5 4 0,
+								-0.5 3 0
+							]
+						}
+						coordIndex [
+							0, 1, 2, 3, -1,
+						]
+						texCoord TextureCoordinate {
+							point [0 0,  0 1 ,  1 1,  1 0 ]
+						}
+						texCoordIndex [
+							0, 1, 2, 3, -1
+						]
+					}
+				}
+			]
+		}
+		DEF textLeftAlcove Transform { # childs: 1
+			translation -2.88 -1 3.2
+			rotation 0 1 0 -1.57
+			scaleOrientation 0 0 1 0
+			children [
+				Shape {
+					appearance Appearance {
+						texture ImageTexture {
+							url "../image/tometxt/rm7eleph/rm7elph5.gif"
+						}
+						material DEF text02Material Material {
+							diffuseColor 0.5 0.5 0.5
+						}
+					}
+					geometry IndexedFaceSet { # faces: 5
+						convex FALSE
+						colorPerVertex FALSE
+						ccw FALSE
+						
+						coord Coordinate {
+							point [
+								#									2.5 3 0,
+								#										2.5 3.588 0,
+								#										-2.5 3.588 0,
+								#										-2.5 3 0
+								1.1 3 0,
+								1.1 4.08 0,
+								-1.1 4.08 0,
+								-1.1 3 0
+							]
+						}
+						coordIndex [
+							0, 1, 2, 3, -1,
+						]
+						texCoord TextureCoordinate {
+							point [0 0,  0 1 ,  1 1,  1 0 ]
+						}
+						texCoordIndex [
+							0, 1, 2, 3, -1
+						]
+					}
+				}
+			]
+		}
+		DEF textFireStack Transform { # childs: 1
+			translation -1.9 1 0
+			rotation 0 1 0 -1.57
+			scaleOrientation 0 0 1 0
+			children [
+				Shape {
+					appearance Appearance {
+						texture ImageTexture {
+							url "../image/tometxt/rm7eleph/rm7elph3.gif"
+						}
+						material DEF text02Material Material {
+							diffuseColor 0.5 0.5 0.5
+						}
+					}
+					geometry IndexedFaceSet { # faces: 5
+						convex FALSE
+						colorPerVertex FALSE
+						ccw FALSE
+						
+						coord Coordinate {
+							point [
+								#									2.5 3 0,
+								#										2.5 3.588 0,
+								#										-2.5 3.588 0,
+								#										-2.5 3 0
+								1.85 3 0,
+								1.85 4.0489 0,
+								-1.85 4.0489 0,
+								-1.85 3 0
+							]
+						}
+						coordIndex [
+							0, 1, 2, 3, -1,
+						]
+						texCoord TextureCoordinate {
+							point [0 0,  0 1 ,  1 1,  1 0 ]
+						}
+						texCoordIndex [
+							0, 1, 2, 3, -1
+						]
+					}
+				}
+			]
+		}
+		DEF textLongWall Transform { # childs: 1
+			translation 2.90 -0.35 -1.07
+			rotation 0 1 0 1.57
+			scaleOrientation 0 0 1 0
+			children [
+				Shape {
+					appearance Appearance {
+						texture ImageTexture {
+							url "../image/tometxt/rm7eleph/rm7elph2.gif"
+						}
+						material DEF text03Material Material {
+							diffuseColor 0.5 0.5 0.5
+						}
+					}
+					geometry IndexedFaceSet { # faces: 5
+						convex FALSE
+						colorPerVertex FALSE
+						ccw FALSE
+						
+						coord DEF text3Coord Coordinate {
+							point [
+								2.2 1 0,
+								2.2 2.85 0,
+								-2.2 2.85 0,
+								-2.2 1 0
+							]
+						}
+						coordIndex [
+							0, 1, 2, 3, -1,
+						]
+						texCoord TextureCoordinate {
+							point [0 0,  0 1 ,  1 1,  1 0 ]
+						}
+						texCoordIndex [
+							0, 1, 2, 3, -1
+						]
+					}
+				}
+			]
+		}
+		DEF textWindowWall Transform { # childs: 1
+			translation 0 -0.4 -4.4
+			rotation 0 0 1 0
+			scaleOrientation 0 0 1 0
+			children [
+				Shape {
+					appearance Appearance {
+						texture ImageTexture {
+							url "../image/tometxt/rm7eleph/rm7elph7.gif"
+						}
+						material DEF text01Material Material {
+							diffuseColor 0.5 0.5 0.5
+							transparency 0.5
+						}
+					}
+					geometry IndexedFaceSet { # faces: 5
+						convex FALSE
+						colorPerVertex FALSE
+						ccw FALSE
+						
+						coord DEF Label_030 Coordinate {
+							point [
+								1.8 1 0,
+								1.8 1.933 0,
+								-1.8 1.933 0,
+								-1.8 1 0
+							]
+						}
+						coordIndex [
+							3, 2, 1, 0, -1,
+						]
+						texCoord TextureCoordinate {
+							point [0 0,  0 1 ,  1 1,  1 0 ]
+						}
+						texCoordIndex [
+							0, 1, 2, 3, -1
+						]
+					}
+				}
+			]
+		}
+		Transform {
+			rotation 1 0 0 1.57
+			children [
+				DEF textFloor Transform { # childs: 1
+					translation -0.4 -1 -0.02
+					rotation 0 0 1 -1.1
+					scaleOrientation 0 0 1 0
+					children [
+						Shape {
+							appearance Appearance {
+								texture ImageTexture {
+									url "../image/tometxt/rm7eleph/rm7elph1.gif"
+								}
+								material Material {
+									diffuseColor 0.5 0.5 0.5
+								}
+							}
+							geometry IndexedFaceSet { # faces: 5
+								convex FALSE
+								colorPerVertex FALSE
+								ccw FALSE
+								
+								coord Coordinate {
+									point [
+										2.5 0 0,
+										2.5 2.28 0,
+										-2.5 2.28 0,
+										-2.5 0 0
+									]
+								}
+								coordIndex [
+									0, 1, 2, 3, -1,
+								]
+								texCoord TextureCoordinate {
+									point [0 0,  0 1 ,  1 1,  1 0 ]
+								}
+								texCoordIndex [
+									0, 1, 2, 3, -1
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

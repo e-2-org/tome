@@ -1,0 +1,139 @@
+#VRML V2.0 utf8
+Group {
+	children [
+	Viewpoint {
+	position -6 0 -8
+	}
+		DEF roomProx ProximitySensor {
+			center	-5 2.5 -3.1
+			size		6.5 8 9.4
+		}
+		Sound {
+			source DEF sound1 AudioClip {
+				loop FALSE
+				pitch          0.75
+				stopTime      1
+				url	[	"../audio/car8hz.wav" ]
+			}
+			direction 		0 0 1
+			intensity     0.5        
+			location      -6 0 -8  
+			maxBack       5    
+			maxFront      11   
+			minBack       1   
+			minFront      2 
+			priority      0 
+			spatialize    FALSE
+		}
+		Sound {
+			source DEF sound2 AudioClip {
+				loop FALSE
+				stopTime      1
+				url	[	"../audio/car8hz.wav" ]
+			}
+			direction 		0 0 1
+			intensity     0.5
+			location      -6 0 -8
+			maxBack       5  
+			maxFront      11 
+			minBack       1   
+			minFront      2 
+			priority      0
+			spatialize    FALSE 
+		}
+		DEF sound3 Sound {
+			source DEF sound3Sound AudioClip {
+				loop           TRUE
+				pitch          1
+				stopTime      1
+				url	[	"../audio/siren8hz.wav" ]
+			}
+			direction 		0 0 1
+			intensity     0   
+			location      -6 0 -8 
+			maxBack       5    
+			maxFront      11  
+			minBack       1   
+			minFront      2 
+			priority      0
+			spatialize    FALSE 
+		}
+		DEF sound1Timer TimeSensor {
+			cycleInterval	3.2
+			loop	TRUE
+			startTime 1
+		}
+		DEF sound2Timer TimeSensor {
+			cycleInterval	5.3
+			loop	TRUE
+			startTime 1
+		}
+		DEF sound3Timer TimeSensor {
+			cycleInterval	25
+			loop	TRUE
+			startTime 1
+		}
+		DEF sound3IntensityTimer TimeSensor {
+			cycleInterval 12
+		}
+		DEF sound3Intensity ScalarInterpolator {
+			key [ 0, 0.15, 1 ]
+			keyValue [ 0, 0.3, 0 ]
+		}
+	]
+}
+DEF bowAudioScript Script {
+	eventIn SFTime sound1Start
+	eventIn SFTime sound2Start
+	eventIn SFTime sound3Start
+	eventIn SFBool soundsEnable
+	eventOut SFTime sound1Play
+	eventOut SFTime sound2Play
+	eventOut SFTime sound3Play
+	eventOut SFTime sound3Stop
+	eventIn SFTime stopSounds
+	eventOut SFTime stop
+	eventOut SFBool sloop
+	url "javascript:
+	function sound1Start(now1, time){
+	sound1Play = time;
+	
+	}
+	function sound2Start(now2, time){
+	sound2Play = time + 5;
+	}
+	function sound3Start(now3, time){
+	sound3Play = (time + 20);
+	sound3Stop = (time + 32);
+	}
+	function soundsEnable (inRoom, time){
+	if (inRoom == FALSE){
+	stop = time;
+	sloop = FALSE;
+	}
+	}
+	"
+}
+ROUTE sound1Timer.cycleTime TO bowAudioScript.sound1Start
+ROUTE sound2Timer.cycleTime TO bowAudioScript.sound2Start
+ROUTE sound3Timer.cycleTime TO bowAudioScript.sound3Start
+ROUTE bowAudioScript.sound1Play TO sound1.startTime
+ROUTE bowAudioScript.sound2Play TO sound2.startTime
+ROUTE bowAudioScript.sound3Play TO sound3Sound.startTime
+ROUTE bowAudioScript.sound3Stop TO sound3Sound.stopTime
+ROUTE	bowAudioScript.sound3Play TO sound3IntensityTimer.startTime
+ROUTE sound3IntensityTimer.fraction_changed TO sound3Intensity.set_fraction
+ROUTE sound3Intensity.value_changed TO sound3.intensity
+
+ROUTE roomProx.isActive TO bowAudioScript.soundsEnable
+ROUTE bowAudioScript.stop TO sound3IntensityTimer.stopTime
+ROUTE bowAudioScript.stop TO sound1Timer.stopTime
+ROUTE bowAudioScript.stop TO sound2Timer.stopTime
+ROUTE bowAudioScript.stop TO sound3Timer.stopTime
+ROUTE bowAudioScript.stop TO sound1.stopTime
+ROUTE bowAudioScript.stop TO sound2.stopTime
+ROUTE bowAudioScript.stop TO sound3Sound.stopTime
+ROUTE bowAudioScript.sloop TO sound3Sound.loop
+
+
+

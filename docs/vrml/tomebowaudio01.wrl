@@ -1,0 +1,89 @@
+#VRML V2.0 utf8
+Group {
+	children [
+		Sound {
+			source DEF carSound AudioClip {
+				#loop           TRUE
+				pitch          0.75
+				startTime      1
+				stopTime       1.5
+				url	[	"../audio/rm1car8hz.wav" ]
+			}
+			direction     0 0 -1     
+			intensity     0.5        
+			location      -3 0 -10  
+			maxBack       100    
+			maxFront      100   
+			minBack       2   
+			minFront      2 
+			priority      0 
+			spatialize    FALSE
+		}
+		
+		Sound {
+			source DEF car2Sound AudioClip {
+				#loop           TRUE
+				#pitch          1
+				startTime      1
+				stopTime       1.5
+				url	[	"../audio/rm1car8hz.wav" ]
+			}
+			direction     0 0 -1
+			intensity     0.5
+			location      -3 0 -10
+			maxBack       100  
+			maxFront      100
+			minBack       2  
+			minFront      2
+			priority      0
+			spatialize    FALSE 
+		}
+		Sound {
+			source DEF sirenSound AudioClip {
+				#loop           FALSE
+				pitch          1
+				startTime			 1
+				stopTime       1
+				url	[	"../audio/rm1siren8hz.wav" ]
+			}
+			direction     0 0 -1
+			intensity     0.5   
+			location      -3 0 -10 
+			maxBack       100  
+			maxFront      100 
+			minBack       2
+			minFront      2
+			priority      0
+			spatialize    FALSE 
+		}
+	
+	
+		DEF carTimer TimeSensor {
+			cycleInterval	6
+			loop	TRUE
+			startTime 1
+			#stopTime 0
+		}
+		DEF carTimer2 TimeSensor {
+			cycleInterval	8
+			loop	TRUE
+			startTime 1
+			#stopTime 0
+		}
+		DEF sirenTimer TimeSensor {
+			cycleInterval	25
+			loop	TRUE
+			startTime 1
+			#stopTime 0
+		}
+	]
+}
+
+ROUTE carTimer.cycleTime TO carSound.startTime
+ROUTE carTimer2.cycleTime TO car2Sound.startTime
+
+#ROUTE sirenTimer.cycleTime TO car2Sound.stopTime
+#ROUTE sirenTimer.cycleTime TO carSound.stopTime
+
+ROUTE sirenTimer.cycleTime TO sirenSound.startTime
+

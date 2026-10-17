@@ -1,0 +1,109 @@
+#VRML V2.0 utf8
+Group {
+	children [
+	Viewpoint{
+	position -6 0 -8
+	}
+	DEF roomProx ProximitySensor {
+			center	-5 2.5 -3.1
+			size		6.5 8 9.4
+			}
+		Sound {
+			source DEF sound1 AudioClip {
+				loop 					 TRUE
+				pitch          0.8
+				startTime      1
+				url	[	"../audio/birdb8b.wav" ]
+			}
+			direction 		0 0 1
+			intensity     0.12        
+			location      -6 0 -8  
+			maxBack       5    
+			maxFront      11   
+			minBack       1   
+			minFront      2 
+			priority      0 
+			spatialize    FALSE
+		}
+		
+		Sound {
+			source DEF sound2 AudioClip {
+				loop 					 TRUE
+				startTime      1
+				url	[	"../audio/birdb8b.wav" ]
+			}
+			direction 		0 0 1
+			intensity     0.12        
+			location      -6 0 -8  
+			maxBack       5    
+			maxFront      11   
+			minBack       1   
+			minFront      2 
+			priority      0 
+			spatialize    FALSE
+		}
+		DEF sound3 Sound {
+			source DEF sound3Sound AudioClip {
+				loop           TRUE
+				startTime			 1
+				url	[	"../audio/foot8b.wav" ]
+			}
+			direction 		0 0 1
+			intensity     0        
+			location      -6 0 -8  
+			maxBack       5    
+			maxFront      11   
+			minBack       1   
+			minFront      2 
+			priority      0 
+			spatialize    FALSE
+		}
+		DEF sound3Timer TimeSensor {
+			cycleInterval	25
+			loop	TRUE
+			startTime 1
+		}
+		DEF sound3IntensityTimer TimeSensor {
+			cycleInterval 7
+		}
+		DEF sound3Intensity ScalarInterpolator {
+			key [ 0, 0.3, 1 ]
+			keyValue [ 0, 0.6, 0 ]
+		}
+	]
+}
+DEF bowAudioScript Script {
+	eventIn SFBool soundsEnable
+	eventIn SFTime sound3Start
+	eventOut SFTime sound3Play
+	eventOut SFTime sound3Stop
+	eventOut SFTime stop
+	eventOut SFBool sloop
+	url "javascript:
+	function sound3Start(now3, time){
+	sound3Play = (time + 15);
+	sound3Stop = (time + 23);
+	}
+	function soundsEnable (inRoom, time){
+	if (inRoom == FALSE){
+	stop = time;
+	sloop = FALSE;
+	}
+	}
+	"
+}
+ROUTE sound3Timer.cycleTime TO bowAudioScript.sound3Start
+ROUTE bowAudioScript.sound3Play TO sound3Sound.startTime
+ROUTE	bowAudioScript.sound3Play TO sound3IntensityTimer.startTime
+ROUTE sound3IntensityTimer.fraction_changed TO sound3Intensity.set_fraction
+ROUTE sound3Intensity.value_changed TO sound3.intensity
+ROUTE roomProx.isActive TO bowAudioScript.soundsEnable
+ROUTE bowAudioScript.stop TO sound3IntensityTimer.stopTime
+ROUTE bowAudioScript.stop TO sound1.stopTime
+ROUTE bowAudioScript.stop TO sound2.stopTime
+ROUTE bowAudioScript.stop TO sound3Timer.stopTime
+ROUTE bowAudioScript.stop TO sound3Sound.stopTime
+ROUTE bowAudioScript.sloop TO sound1.loop
+ROUTE bowAudioScript.sloop TO sound2.loop
+
+

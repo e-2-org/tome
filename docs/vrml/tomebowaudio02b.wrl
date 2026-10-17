@@ -1,0 +1,133 @@
+#VRML V2.0 utf8
+Group {
+	children [
+		Sound {
+			source DEF car1Sound AudioClip {
+				#loop           TRUE
+				#pitch          0.75
+				startTime      1
+				#stopTime       1.5
+				url	[	"../audio/rm1car8hz.wav" ]
+			}
+			direction     0 0 -1     
+			intensity     0.5        
+			location      -3 0 -10  
+			maxBack       100    
+			maxFront      100   
+			minBack       2   
+			minFront      2 
+			priority      0 
+			spatialize    FALSE
+		}
+		
+		Sound {
+			source DEF car2Sound AudioClip {
+				#loop           TRUE
+				#pitch          1
+				startTime      1
+				#stopTime       1.5
+				url	[	"../audio/rm1car8hz.wav" ]
+			}
+			direction     0 0 -1
+			intensity     0.5
+			location      -3 0 -10
+			maxBack       100  
+			maxFront      100
+			minBack       2  
+			minFront      2
+			priority      0
+			spatialize    FALSE 
+		}
+		Sound {
+			source DEF sirenSound AudioClip {
+				#loop           FALSE
+				pitch          1
+				startTime			 1
+				stopTime       1
+				url	[	"../audio/rm1siren8hz.wav" ]
+			}
+			direction     0 0 -1
+			intensity     0.5   
+			location      -3 0 -10 
+			maxBack       100  
+			maxFront      100 
+			minBack       2
+			minFront      2
+			priority      0
+			spatialize    FALSE 
+		}
+	
+	
+		DEF car1Timer TimeSensor {
+			cycleInterval	6
+			loop	TRUE
+			startTime 1
+			#stopTime 0
+		}
+		DEF car2Timer TimeSensor {
+			cycleInterval	8
+			loop	TRUE
+			startTime 1
+			#stopTime 0
+		}
+		DEF sirenTimer TimeSensor {
+			cycleInterval	25
+			loop	TRUE
+			startTime 1
+			#stopTime 0
+		}
+	]
+}
+
+DEF bowAudioScript Script {
+	eventIn	SFBool	car1Active
+	eventIn	SFBool	car2Active
+	eventIn SFFloat car1Fraction
+	eventIn SFFloat car2Fraction
+	eventIn SFFloat sirenFraction
+	field SFBool	statusCar1	FALSE
+	field SFBool	statusCar2	FALSE
+	field	SFFloat	frac1	1
+	field	SFFloat	frac2	1
+	eventOut SFTime car1Play
+	eventOut SFTime car2Play
+	eventOut SFFloat car1Pitch
+	eventOut SFFloat car2Pitch
+	eventOut SFTime sirenPlay
+	url "javascript:
+		function Car1Active (status){
+					statusCar1 = status;
+					}
+		function Car2Active (status){
+					statusCar2 = status;
+					}
+		function car1Fraction(now1, time){
+				if (statusCar1 == FALSE){
+					car1Pitch = 1 - (frac2 / 3);
+					frac1 = now1;
+				if (now1 > .99)
+					car1Play = time;
+					//statusCar1 = TRUE;
+					}
+					}
+		function car2Fraction(now2, time){
+			  if (statusCar1 == FALSE){
+					car2Pitch = 1 - (frac1 / 3);
+					frac2 = now2;
+				if (now2 > .99)
+					car2Play = time;
+					}
+					}
+		"
+}
+ROUTE	car1Sound.isActive TO bowAudioScript.car1Active
+ROUTE	car2Sound.isActive TO bowAudioScript.car2Active
+ROUTE car1Timer.fraction_changed TO bowAudioScript.car1Fraction
+ROUTE car2Timer.fraction_changed TO bowAudioScript.car2Fraction
+ROUTE bowAudioScript.car1Play TO car1Sound.startTime
+#ROUTE bowAudioScript.car2Play TO car2Sound.startTime
+ROUTE bowAudioScript.car1Pitch TO car1Sound.pitch
+ROUTE bowAudioScript.car2Pitch TO car2Sound.pitch
+
+#ROUTE sirenTimer.cycleTime TO sirenSound.startTime
+

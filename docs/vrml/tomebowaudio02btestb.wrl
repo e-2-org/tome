@@ -1,0 +1,105 @@
+#VRML V2.0 utf8
+Group {
+	children [
+		Sound {
+			source DEF car1Sound AudioClip {
+				pitch          0.75
+				startTime      1
+				url	[	"../audio/rm1car8hz.wav" ]
+			}
+			intensity     0.5        
+			location      -3 0 -10  
+			maxBack       100    
+			maxFront      100   
+			minBack       2   
+			minFront      2 
+			priority      0 
+			spatialize    FALSE
+		}
+		
+		Sound {
+			source DEF car2Sound AudioClip {
+				startTime      1
+				url	[	"../audio/rm1car8hz.wav" ]
+			}
+			intensity     0.5
+			location      -3 0 -10
+			maxBack       100  
+			maxFront      100
+			minBack       2  
+			minFront      2
+			priority      0
+			spatialize    FALSE 
+		}
+		DEF siren Sound {
+			source DEF sirenSound AudioClip {
+				loop           TRUE
+				pitch          1
+				startTime			 1
+				url	[	"../audio/rm1siren8hz.wav" ]
+			}
+			intensity     0   
+			location      -3 0 -10 
+			maxBack       100  
+			maxFront      100 
+			minBack       2
+			minFront      2
+			priority      0
+			spatialize    FALSE 
+		}
+		DEF car1Timer TimeSensor {
+			cycleInterval	3.2
+			loop	TRUE
+			startTime 1
+		}
+		DEF car2Timer TimeSensor {
+			cycleInterval	5.3
+			loop	TRUE
+			startTime 1
+		}
+		DEF sirenTimer TimeSensor {
+			cycleInterval	25
+			loop	TRUE
+			startTime 1
+		}
+		DEF sirenIntensityTimer TimeSensor {
+			cycleInterval 12
+		}
+		DEF sirenIntensity ScalarInterpolator {
+			key [ 0, 0.15, 1 ]
+			keyValue [ 0, 0.5, 0 ]
+		}
+	]
+}
+DEF bowAudioScript Script {
+	eventIn SFTime car1Start
+	eventIn SFTime car2Start
+	eventIn SFTime sirenStart
+	eventOut SFTime car1Play
+	eventOut SFTime car2Play
+	eventOut SFTime sirenPlay
+	eventOut SFTime sirenStop
+	url "javascript:
+	function car1Start(now1, time){
+	car1Play = time;
+	}
+	function car2Start(now2, time){
+	car2Play = time;
+	}
+	function sirenStart(now3, time){
+	sirenPlay = (time + 20);
+	sirenStop = (time + 32);
+	}
+	"
+}
+ROUTE car1Timer.cycleTime TO bowAudioScript.car1Start
+ROUTE car2Timer.cycleTime TO bowAudioScript.car2Start
+ROUTE sirenTimer.cycleTime TO bowAudioScript.sirenStart
+ROUTE bowAudioScript.car1Play TO car1Sound.startTime
+ROUTE bowAudioScript.car2Play TO car2Sound.startTime
+ROUTE bowAudioScript.sirenPlay TO sirenSound.startTime
+ROUTE bowAudioScript.sirenStop TO sirenSound.stopTime
+ROUTE	bowAudioScript.sirenPlay TO sirenIntensityTimer.startTime
+ROUTE sirenIntensityTimer.fraction_changed TO sirenIntensity.set_fraction
+ROUTE sirenIntensity.value_changed TO siren.intensity
+
