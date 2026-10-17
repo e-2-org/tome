@@ -1,6 +1,6 @@
 # Tome in a modern browser: session summary
 
-13 October 2026, working with Claude Code on `master`. The full conversation is in [2026-10-13-transcript.md](2026-10-13-transcript.md).
+13 October 2026, working with Claude Code on `master`. The same session went on to fix printing in the Word Perhect port and add tests for it (see the `wordperhect` repository). The full conversation is in [transcript.md](transcript.md).
 
 ## Aim
 
